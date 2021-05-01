@@ -6,7 +6,7 @@ class MyThread extends Thread {
     private final int numberOfIterations;
     private final int increment;
     private final long startNumber;
-    ArrayList<Long> list;
+    private final ArrayList<Long> list;
 
     public MyThread(int numberOfIterations, int increment, long startNumber, ArrayList<Long> list) {
         this.increment = increment;
@@ -19,8 +19,13 @@ class MyThread extends Thread {
     public void run() {
         long answer =0;
         long factor = startNumber/increment;
-        for(int i=1; i<=numberOfIterations; i++) {
-            answer+= increment *(i+factor);
+        for(long i=1+factor; i<=numberOfIterations; i++) {
+            answer+= increment *(i);
+        }
+        try {
+            sleep(3+list.size());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         list.add(answer);
     }
