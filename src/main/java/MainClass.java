@@ -9,7 +9,7 @@ public class MainClass {
 
         long startForFormula = System.nanoTime();
         result = UsingFormula.calculate(quantityOfElements, multiplier);
-        Printer.print(System.nanoTime()-startForFormula, result, Flags.USING_MATH); //TODO make it non static + implement Calculator
+        Printer.print(System.nanoTime()-startForFormula, result, Flags.USING_MATH);
 
         long startForCycle = System.nanoTime();
         result = UsingSingleThread.calculate(quantityOfElements, multiplier);
@@ -29,6 +29,16 @@ public class MainClass {
         long startFor8Threads = System.nanoTime();
         result = using8Threads.calculate(quantityOfElements, multiplier);
         Printer.print(System.nanoTime()-startFor8Threads, result, Flags.USING_8_THREADS);
+
+        Using16Threads using16Threads = new Using16Threads();
+        long startFor16Threads = System.nanoTime();
+        result = using16Threads.calculate(quantityOfElements, multiplier);
+        Printer.print(System.nanoTime()-startFor16Threads, result, Flags.USING_16_THREADS);
+
+        Using32Threads using32Threads = new Using32Threads();
+        long startFor32Threads = System.nanoTime();
+        result = using32Threads.calculate(quantityOfElements, multiplier);
+        Printer.print(System.nanoTime()-startFor32Threads, result, Flags.USING_32_THREADS);
     }
 }
 

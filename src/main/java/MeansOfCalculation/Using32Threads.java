@@ -2,23 +2,23 @@ package MeansOfCalculation;
 
 import java.util.ArrayList;
 
-public class Using16Threads implements ThreadCalculator {
+public class Using32Threads implements ThreadCalculator {
     private final ArrayList<Long> toSumUp = new ArrayList<>();
     private final ArrayList<Thread> threads = new ArrayList<>();
 
     @Override
     public long calculate(int numberOfElements, int increment) {
         long startNumber;
-        int numberOfIterations = (int) Math.floor(numberOfElements / 16);
+        int numberOfIterations = (int) Math.floor(numberOfElements / 32);
 
-        for(int i=0; i<15; i++) {
+        for(int i=0; i<31; i++) {
             startNumber = Assist.findValue(increment, numberOfIterations*i);
             MyThread t1 = new MyThread((i+1)*numberOfIterations, increment, startNumber, this);
             threads.add(t1);
             t1.start();
         }
-        startNumber = Assist.findValue(increment, numberOfIterations*15);
-        MyThread t2 = new MyThread((16*numberOfIterations + numberOfElements % 16), increment, startNumber, this);
+        startNumber = Assist.findValue(increment, numberOfIterations*31);
+        MyThread t2 = new MyThread((32*numberOfIterations + numberOfElements % 32), increment, startNumber, this);
         threads.add(t2);
         t2.start();
 

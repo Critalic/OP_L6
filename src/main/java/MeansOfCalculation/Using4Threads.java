@@ -3,8 +3,8 @@ package MeansOfCalculation;
 import java.util.ArrayList;
 
 public class Using4Threads implements ThreadCalculator {
-    private ArrayList<Long> toSumUp = new ArrayList<>();
-    private ArrayList<Thread> threads = new ArrayList<>();
+    private final ArrayList<Long> toSumUp = new ArrayList<>();
+    private final ArrayList<Thread> threads = new ArrayList<>();
 
     @Override
     public long calculate(int numberOfElements, int increment) {
