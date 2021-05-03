@@ -1,3 +1,5 @@
+package AssistStuff;
+
 public enum Flags {
     USING_MATH,
     USING_SINGLE_THREAD,

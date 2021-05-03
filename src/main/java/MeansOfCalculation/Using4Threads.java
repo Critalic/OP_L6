@@ -2,43 +2,39 @@ package MeansOfCalculation;
 
 import java.util.ArrayList;
 
-public class Using4Threads {
-    private static ArrayList<Long> toSumUp = new ArrayList<>();
+public class Using4Threads implements ThreadCalculator {
+    private ArrayList<Long> toSumUp = new ArrayList<>();
+    private ArrayList<Thread> threads = new ArrayList<>();
 
-    public static long calculate(int numberOfElements, int increment) {
-        MyThread t1=null;
-        long startNumber =0;
+    @Override
+    public long calculate(int numberOfElements, int increment) {
+        long startNumber;
         int numberOfIterations = (int) Math.floor(numberOfElements / 4);
 
-
         for(int i=0; i<3; i++) {
-            startNumber = findValue(increment, numberOfIterations*i);
-            t1 = new MyThread((i+1)*numberOfIterations, increment, startNumber, toSumUp);
+            startNumber = Assist.findValue(increment, numberOfIterations*i);
+            MyThread t1 = new MyThread((i+1)*numberOfIterations, increment, startNumber, this);
+            threads.add(t1);
             t1.start();
         }
-        startNumber = findValue(increment, numberOfIterations*3);
-        MyThread t2 = new MyThread((4*numberOfIterations + numberOfElements % 4), increment, startNumber, toSumUp);
+        startNumber = Assist.findValue(increment, numberOfIterations*3);
+        MyThread t2 = new MyThread((4*numberOfIterations + numberOfElements % 4), increment, startNumber, this);
+        threads.add(t2);
         t2.start();
-        try {
-            t1.join();
-            t2.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+
+        for(Thread t : threads) {
+            try {
+                t.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        return getAnswer(toSumUp);
+
+        return Assist.getAnswer(toSumUp);
     }
 
-    private static long findValue (int increment, int number) {return increment*(number);}
-    private static long getAnswer(ArrayList<Long> toSumUp) {
-        long answer=0;
-        for(long l : toSumUp) {
-            answer+= l;
-        }
-        return answer;
-    }
-
-    public static synchronized void addToArray(long number) {
-        toSumUp.add(number);
+    public void addToArray(long number) {
+            toSumUp.add(number);
     }
 }
 
